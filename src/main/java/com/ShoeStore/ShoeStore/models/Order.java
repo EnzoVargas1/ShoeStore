@@ -53,12 +53,10 @@ public class Order extends Container {
 		customer.addOrder(this);
 		setCustomer(customer);
 		setProducts(customer.getCart().getProducts());
-		setAmount(customer.getCart().getAmount());
+		setAmount(customer.getCart().getAmount() + 5.99);
 		setQuantity(customer.getCart().getQuantity());
 		setDelivered(false);
 		//customer.getCart().clearCart();
-		
-		
 	}
 
 	public long getOrderNumber() {

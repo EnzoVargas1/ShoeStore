@@ -74,13 +74,17 @@ public class CartServiceImpl implements CartService {
 		if(!shoe.isInStock()) {
 			throw new ProductNotFoundException("This item is out of stock");
 		}
+		
+		if(!shoe.isInStock()) {
+			throw new ProductNotFoundException("This item is out of stock");
+		}
 		customer.getCart().addItem(shoe);
 		shoe.setCart(customer.getCart());
 		shoeRepository.save(shoe);
 		return cartRepository.save(customer.getCart());
 		
 	}
-
+	
 	@Override
 	public Cart removeShoe(Shoe shoe, int id) throws NoResourceFoundException, ProductNotFoundException {
 		// TODO Auto-generated method stub

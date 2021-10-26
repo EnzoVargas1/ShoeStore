@@ -73,7 +73,7 @@ public class UserController {
 	@PostMapping("/Me/cart/addshoe")
     @Secured("ROLE_USER")
 	@ResponseStatus(HttpStatus.OK)
-	public Cart addToCart(@RequestBody@Valid Shoe shoe) throws NoResourceFoundException, ProductNotFoundException {
+	public Cart addToCart(@RequestBody Shoe shoe) throws NoResourceFoundException, ProductNotFoundException {
 		
 		String username = jwtTokenUtil.getCurrentUserName();
 		User user = userService.getUserByUserName(username);
