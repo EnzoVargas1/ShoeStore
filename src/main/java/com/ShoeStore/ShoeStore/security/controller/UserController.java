@@ -24,9 +24,11 @@ import com.ShoeStore.ShoeStore.models.Cart;
 import com.ShoeStore.ShoeStore.models.Customer;
 import com.ShoeStore.ShoeStore.models.Order;
 import com.ShoeStore.ShoeStore.models.PaymentForm;
+import com.ShoeStore.ShoeStore.models.ShippingInfo;
 import com.ShoeStore.ShoeStore.models.Shoe;
 import com.ShoeStore.ShoeStore.security.util.JwtUtil;
 import com.ShoeStore.ShoeStore.services.CartService;
+import com.ShoeStore.ShoeStore.services.CustomerService;
 import com.ShoeStore.ShoeStore.services.OrderService;
 import com.ShoeStore.exceptions.CartIsEmptyException;
 import com.ShoeStore.exceptions.NoResourceFoundException;
@@ -51,6 +53,9 @@ public class UserController {
 	@Autowired
 	OrderService orderService;
 	
+	@Autowired
+	CustomerService customerService;
+	
 	@GetMapping("/Me")
 	@Secured("ROLE_USER")
 	public Customer getAccountHolderById() {
@@ -58,6 +63,16 @@ public class UserController {
 		System.out.println("username: "+username);
 		User user = userService.getUserByUserName(username);
 		return user.getCustomer();
+	}
+	
+	@PutMapping("/Me/customer/shippinginfo")
+	@Secured("ROLE_USER")
+	@ResponseStatus(HttpStatus.OK)
+	public ShippingInfo updateShippingInfo(@RequestBody@Valid ShippingInfo shippingInfo) 
+	throws NoResourceFoundException {
+		String username = jwtTokenUtil.getCurrentUserName();
+		User user = userService.getUserByUserName(username);
+		return customerService.updateShippingInfo(user.getCustomer().getId(), shippingInfo);
 	}
 	
 	@GetMapping("/Me/cart")
