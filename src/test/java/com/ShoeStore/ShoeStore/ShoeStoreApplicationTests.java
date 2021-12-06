@@ -24,14 +24,6 @@ class ShoeStoreApplicationTests {
 	void contextLoads() {
 	}
 	
-	@Test
-	public void SKUGenerator() {
-		String name = "Nike Air Forces 07";
-		String brand = "Nike";
-		String output ="NIK00-00";
-		String actual = SKUGenerator.getInstance().generateSKU(brand);
-		assertEquals(output, actual);
-	}
 	
 	@Test
 	public void processItems() throws ProductNotFoundException {

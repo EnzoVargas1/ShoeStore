@@ -50,6 +50,7 @@ public class Customer {
 		this.number = number;
 		//this.shippingInfo = shippingInfo;
 	}
+	
 
 	public User getUser() {
 		return user;

@@ -35,25 +35,24 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public Customer addCustomer(Customer customer) {
 		// TODO Auto-generated method stub
+		customerRepository.save(customer);
 		ShippingInfo shippingInfo = customer.getShippingInfo();
 		User user = customer.getUser();
 		if(shippingInfo != null) {
 			shippingInfo.setCustomer(customer);
 			shippingInfoRepository.save(shippingInfo);
 		}
-		/*
+		
 		if(user != null) {
 			user.setCustomer(customer);
 			userRepository.save(user);
 		}
-		*/
+		
 		Cart cart = new Cart();
 		customer.setCart(cart);
 		cart.setCustomer(customer);
 		
 		cartRepository.save(cart);
-		
-		customerRepository.save(customer);
 		return customer;
 	}
 

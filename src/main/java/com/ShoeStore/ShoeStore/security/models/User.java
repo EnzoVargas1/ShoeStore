@@ -31,8 +31,7 @@ public class User {
     @JsonIgnore
     private Customer customer;
     
-    public User() {
-	}
+    public User() {}
 
 	public User(String userName, String password) {
 		this.userName = userName;

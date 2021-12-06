@@ -42,17 +42,17 @@ public class ShoeController {
 		return shoeService.getNonDuplicateShoes();
 	}
 	
-	@PostMapping("/shoe/{quantity}")
+	@PostMapping("/shoe")
 	@ResponseStatus(HttpStatus.CREATED)
-	public List<Shoe> addShoe(@RequestBody@Valid Shoe shoe, @PathVariable int quantity) {
+	public List<Shoe> addShoe(@RequestBody@Valid Shoe shoe) {
 		
-		return shoeService.addShoe(shoe, quantity);
+		return shoeService.addShoe(shoe);
 	}
 	
 	@GetMapping("/shoe/{id}")
 	public Shoe getShoeById(@PathVariable int id) throws ProductNotFoundException {
 		return shoeService.getShoeById(id);
-	}
+	} 
 	
 	@DeleteMapping("/shoe/{id}")
 	public Shoe removeShoe(@PathVariable int id) throws ProductNotFoundException {

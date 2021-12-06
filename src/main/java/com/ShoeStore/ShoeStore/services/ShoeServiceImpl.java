@@ -1,17 +1,17 @@
 package com.ShoeStore.ShoeStore.services;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.ShoeStore.ShoeStore.models.SKUGenerator;
 import com.ShoeStore.ShoeStore.models.Shoe;
 import com.ShoeStore.ShoeStore.repository.ShoeRepository;
 import com.ShoeStore.exceptions.ProductNotFoundException;
+
+
 
 @Service
 public class ShoeServiceImpl implements ShoeService {
@@ -20,12 +20,13 @@ public class ShoeServiceImpl implements ShoeService {
 	private ShoeRepository shoeRepository;
 	
 	@Override
-	public List<Shoe> addShoe(Shoe shoe,int  quantity) {
+	public List<Shoe> addShoe(Shoe shoe) {
 		// TODO Auto-generated method stub
 	    
-		List<Shoe> response = new ArrayList<Shoe>(quantity);
+		List<Shoe> response = new ArrayList<Shoe>();
+		double size = 4;
 		
-		shoe = new Shoe(shoe.getName(), shoe.getSize(), 
+		shoe = new Shoe(shoe.getName(), size, 
 		shoe.getColor1(), shoe.getColor2(), shoe.getColor3(), shoe.getColor4(), 
 		shoe.getBrand(), shoe.getPrice(),  shoe.getUrl());
 		
@@ -43,20 +44,21 @@ public class ShoeServiceImpl implements ShoeService {
 		
 		shoe.setSKU(sku);
 		
-		shoeRepository.save(shoe);
-		response.add(shoe);
-		
-		for(int i = 0; i < quantity - 1; i++) {
-			shoe = new Shoe(shoe.getName(), shoe.getSize(), 
+		for(int i = 1; i <= 63; i++) {
+			shoe = new Shoe(shoe.getName(), size, 
 			shoe.getColor1(), shoe.getColor2(), shoe.getColor3(), shoe.getColor4(), 
 			shoe.getBrand(), shoe.getPrice(), shoe.getUrl(), sku);
 			shoe.setSize2(shoe.getSize() + 1.5);
 			
 			shoeRepository.save(shoe);
 			response.add(shoe);
+			
+			if(i%3 == 0 && i >= 3) {
+				size = size + 0.5;
+			}
 		}
 		
-		return response;
+		return shoeRepository.findAll();
 		
 	}
 	
@@ -140,26 +142,6 @@ public class ShoeServiceImpl implements ShoeService {
         if(shoe == null) throw new ProductNotFoundException("Product Unavailable");
         
 		return shoe;   
-	}
-
-	
-	private Shoe binarySearch(List<Shoe> shoes, int l, int r, int id, String sku ) {
-		
-		int mid = l + (r-l)/2;
-		
-		if(shoes.get(mid).getId() == id && shoes.get(mid).getSKU() != sku) {
-			return shoes.get(mid);
-		}
-		else if(shoes.get(mid).getId() > id && shoes.get(mid).getSKU() != sku){
-			return binarySearch(shoes, mid - 1, l, id, sku);
-		}
-		else if(shoes.get(mid).getId() < id && shoes.get(mid).getSKU() != sku){
-			return binarySearch(shoes, r, mid + 1, id, sku);
-		}
-		else {
-			return null;
-		}
-		
 	}
 	
 }
